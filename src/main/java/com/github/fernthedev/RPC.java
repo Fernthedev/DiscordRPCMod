@@ -2,6 +2,7 @@ package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
 public class RPC {
@@ -37,6 +38,8 @@ public class RPC {
             e1.printStackTrace();
         }*/
 
+
+
         DiscordRichPresence rich = new DiscordRichPresence();
         rich.details = "Just doing stuff. Waiting. You Know. ";
         rich.state = "In Menu";
@@ -49,23 +52,19 @@ public class RPC {
 
     public void server(String client, String address, String ServerName, ServerData serverData) {
 
-
-        long unixTime = System.currentTimeMillis() / 1000L;
-
         DiscordRichPresence rich = new DiscordRichPresence();
         rich.details = "Playing on a server";
         rich.state = "Ip: " + address;
         rich.largeImageKey = "minecraft-large";
         rich.largeImageText = "Minecraft";
-        //rich.smallImageKey = "minecraft-small";
-        //rich.smallImageText = "Minecraft";
-        if(!serverData.isOnLAN()) {
+        if(!Minecraft.getMinecraft().isIntegratedServerRunning()) {
             String ip = serverData.serverIP;
             secret = ip;
 
             //ip = ip.replace(".","\\");
             //rich.partyId = ip;
             rich.joinSecret = ip;
+
             if(ip.contains("hypixel")) {
                 rich.smallImageKey = "hypixel";
                 rich.smallImageText = "Hypixel";
@@ -119,7 +118,6 @@ public class RPC {
     }
 
     public void single(String client) {
-
         DiscordRichPresence rich = new DiscordRichPresence();
         rich.state = "Playing Survival";
         rich.details = "Playing Mc like a normal person";

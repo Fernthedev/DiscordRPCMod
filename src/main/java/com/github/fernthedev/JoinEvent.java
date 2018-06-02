@@ -9,8 +9,7 @@ public class JoinEvent implements JoinGameCallback {
     @Override
     public void apply(String secret) {
         Minecraft mc = Minecraft.getMinecraft();
-        ServerData server = new ServerData("",secret,false);
+        ServerData server = new ServerData("",secret);
         FMLClientHandler.instance().connectToServer(mc.currentScreen,server);
-
     }
 }
