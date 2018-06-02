@@ -3,11 +3,10 @@ package com.github.fernthedev;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreenServerList;
-import net.minecraft.client.gui.GuiWorldSelection;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -20,31 +19,27 @@ public class RPCEvents {
 
     private RPC rpc;
     private String client;
+    private String oldaddress;
     private Gui lastgui;
-    private DiscordMod discordMod;
-    private String oldadress;
 
-    public RPCEvents(RPC rpc,DiscordMod discordMod) {
+    public RPCEvents(RPC rpc) {
         this.rpc = rpc;
-        this.discordMod = discordMod;
         client = DiscordMod.client;
-        oldadress = "none";
         lastgui = null;
+        oldaddress = "none";
     }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void menuOpened(GuiScreenEvent e) {
         if(lastgui == null) {
-            lastgui = e.getGui();
+            lastgui = e.gui;
         }
-        if ((e.getGui() instanceof GuiMainMenu || e.getGui() instanceof GuiScreenServerList || e.getGui() instanceof GuiWorldSelection)) {
-            if (lastgui instanceof GuiMainMenu || lastgui instanceof GuiScreenServerList || lastgui instanceof GuiWorldSelection) {
-                lastgui = e.getGui();
-                DiscordMod.player = Minecraft.getMinecraft().player;
-                oldadress = "none";
-                rpc.menu(client);
-            }
+        if ((e.gui instanceof GuiMainMenu || e.gui instanceof GuiScreenServerList || e.gui instanceof GuiSelectWorld) && !(lastgui instanceof GuiMainMenu || lastgui instanceof GuiScreenServerList || lastgui instanceof GuiSelectWorld)) {
+            lastgui = e.gui;
+            oldaddress = "none";
+            DiscordMod.player = Minecraft.getMinecraft().thePlayer;
+            rpc.menu(client);
         }
     }
 
@@ -73,27 +68,33 @@ public class RPCEvents {
     }*/
 
 
+
     @SubscribeEvent
     public void multiplayer(EntityJoinWorldEvent e) {
-        //EntityPlayer player = Minecraft.getMinecraft().player;
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
         ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
         Minecraft mc = Minecraft.getMinecraft();
         String ServerName = "unknown";
         String address = "unknown";
-        if(!(serverData == null)) {
-            if(e.getEntity() == mc.player) {
+        if(e.entity == mc.thePlayer) {
+            //DiscordMod.sendPlayerMessage(mc.thePlayer, "Player found");
+            if (!(serverData == null)) {
+                //DiscordMod.sendPlayerMessage(mc.thePlayer, "Server not null");
                 if (!mc.isIntegratedServerRunning()) {
-                    if (oldadress == null) {
-                        oldadress = "none";
+                    //DiscordMod.sendPlayerMessage(mc.thePlayer, "not intergrated");
+                    address = serverData.serverIP;
+                    ServerName = serverData.serverName;
+                    if (oldaddress == null) {
+                        oldaddress = "none";
                     }
-                    if (!oldadress.equals(address)) {
-                        address = serverData.serverIP;
-                        ServerName = serverData.serverName;
+                    if (!oldaddress.equals(address)) {
+                        oldaddress = address;
                         rpc.server(client, address, ServerName, serverData);
+                        //DiscordMod.sendPlayerMessage(mc.thePlayer, "Set the rich presence");
                     }
                 }
             }
+        }else{
+            //DiscordMod.sendPlayerMessage(mc.thePlayer, "Not player");
         }
 
 
@@ -111,7 +112,7 @@ public class RPCEvents {
         Minecraft mc = Minecraft.getMinecraft();
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
-            oldadress = "none";
+            oldaddress = "none";
             rpc.single(client);
         }
     }
@@ -120,7 +121,7 @@ public class RPCEvents {
 
     @SubscribeEvent
     public void onTick(TickEvent e) {
-        if(tick >= 40) {
+        if(tick >= 20*5) {
             DiscordRPC.discordRunCallbacks();
             tick = 0;
         }

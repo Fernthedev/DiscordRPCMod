@@ -1,17 +1,20 @@
-buildscript {
+/*buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         //classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        //classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
+}*/
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 plugins {
     id "com.github.johnrengelman.shadow" version "1.2.4"
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+//apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
@@ -39,31 +42,32 @@ shadowJar {
     relocate 'org.apache', 'shadow.org.apache'
 }
 
-jar {
+/*jar {
     configurations.shade.each { dep ->
         from(project.zipTree(dep)) {
             exclude 'META-INF', 'META-INF/**'
         }
     }
-}
+}*/
+
+
 minecraft {
-//    version = "1.8-11.14.4.1563"
-    version = "1.12.2-14.23.3.2655"
+    version = "1.8-11.14.4.1563"
     runDir = "run"
-    
+
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
+    // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20171003"
+    mappings = "snapshot_20141130"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 //        srgExtra "PK: org/ejml your/new/package/here/ejml"
  //       srgExtra "PK: org/ejml/alg your/new/package/here/ejml/alg"
 }
 
 //create a single Jar with all dependencies
-task fatJar(type: Jar) {
+/*task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'discordmod',
                 'Implementation-Version': version,
@@ -72,13 +76,6 @@ task fatJar(type: Jar) {
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
-}
-
-/*repositories {
-    maven {
-        name = 'Tethys (drakon.io)'
-        url = "http://tethys.drakon.io/maven"
-    }
 }*/
 
 dependencies {
@@ -111,7 +108,7 @@ processResources {
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 
-    // copy everything else except the mcmod.info
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

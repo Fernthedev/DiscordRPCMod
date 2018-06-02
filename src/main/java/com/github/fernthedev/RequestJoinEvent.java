@@ -23,13 +23,13 @@ public class RequestJoinEvent implements JoinRequestCallback {
             }
         }
         if(isNotNull) {
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().player, "The user " + discordUser + " has requested to join you");
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().player, "The userid is " + discordUser.userId);
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().player, "The secret is " + RPC.secret);
+            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The user " + discordUser + " has requested to join you");
+            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The userid is " + discordUser.userId);
+            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The secret is " + RPC.secret);
             if (RPC.secret.equals(server.serverIP)) {
                 mc.displayGuiScreen(new OptionMenu(true,discordUser));
             }
-            //DiscordRPC.discordRespond(discordUser.userId, DiscordReply.YES);
+                //DiscordRPC.discordRespond(discordUser.userId, DiscordReply.YES);
         }
     }
 }
