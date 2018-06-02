@@ -1,0 +1,17 @@
+[
+{
+  "modid": "discordmod112",
+  "name": "Discord",
+  "description": "Enables Rich Presence For your profile.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Fernthedev"],
+  "credits": "jagrosh for discord api. https://github.com/jagrosh/DiscordIPC",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
+
