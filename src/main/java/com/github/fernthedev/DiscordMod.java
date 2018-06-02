@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * DISCORD RPC LIBRARIES PROVIDED BY VATUU (NOT DIRECTLY)
  * Github repository found at <a href="https://github.com/Vatuu/discord-rpc">https://github.com/Vatuu/discord-rpc</a>
  */
-@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.8,")
+@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.12,")
 public class DiscordMod {
     public static final String MODID = "discordmod112";
     public static final String NAME = "Discord";
