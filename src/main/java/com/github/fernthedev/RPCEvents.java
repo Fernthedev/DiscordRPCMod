@@ -2,7 +2,6 @@ package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreenServerList;
@@ -21,12 +20,11 @@ public class RPCEvents {
     private RPC rpc;
     private String client;
     private Gui lastgui;
-    private DiscordMod discordMod;
     private String oldadress;
 
-    public RPCEvents(RPC rpc,DiscordMod discordMod) {
+    @SuppressWarnings("WeakerAccess")
+    public RPCEvents(RPC rpc) {
         this.rpc = rpc;
-        this.discordMod = discordMod;
         client = DiscordMod.client;
         oldadress = "none";
         lastgui = null;
@@ -48,38 +46,12 @@ public class RPCEvents {
         }
     }
 
-    /*@SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    public void joinServer(FMLNetworkEvent.ClientConnectedToServerEvent e) {
-        IThreadListener mainThread = Minecraft.getMinecraft();
-        mainThread.addScheduledTask(() -> {
-            ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
-            Minecraft mc = Minecraft.getMinecraft();
-            //Logger.info("Server Connected! Local? %s - Address: %s", e.isLocal(), serverData != null ? serverData.serverIP : "<No ServerData>");
-            if (serverData != null || mc.world.isRemote) {
-                EntityPlayerSP player = mc.player;
-                rpc.server(client);
-                if (serverData == null) {
-                    RPC.address = "unknown";
-                    RPC.ServerName = "unknown";
-                    RPC.Players = "unknown";
-                } else {
-                    RPC.address = serverData.serverIP;
-                    RPC.ServerName = serverData.serverName;
-                    RPC.Players = serverData.populationInfo;
-                }
-            }
-        });
-    }*/
-
-
     @SubscribeEvent
     public void multiplayer(EntityJoinWorldEvent e) {
         //EntityPlayer player = Minecraft.getMinecraft().player;
-        EntityPlayerSP player = Minecraft.getMinecraft().player;
         ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
         Minecraft mc = Minecraft.getMinecraft();
-        String ServerName = "unknown";
+        String ServerName;
         String address = "unknown";
         if(!(serverData == null)) {
             if(e.getEntity() == mc.player) {
