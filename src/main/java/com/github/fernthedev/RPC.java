@@ -82,6 +82,9 @@ public class RPC {
             }else if(ip.contains("ubermc.net")) {
                 rich.smallImageKey = "ubermc";
                 rich.smallImageText = "UberMC";
+            }else if(ip.contains("aternos")) {
+                rich.smallImageText = "Aternos server";
+                rich.smallImageKey = "aternos";
             }
             /*MinecraftServer server = Minecraft.getMinecraft().getIntegratedServer();
             assert server != null;
