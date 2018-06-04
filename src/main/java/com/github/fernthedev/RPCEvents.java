@@ -2,11 +2,8 @@ package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,13 +15,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RPCEvents {
 
     private RPC rpc;
-    private String client;
     private String oldaddress;
     private Gui lastgui;
 
+    @SuppressWarnings("WeakerAccess")
     public RPCEvents(RPC rpc) {
         this.rpc = rpc;
-        client = DiscordMod.client;
         lastgui = null;
         oldaddress = "none";
     }
@@ -39,7 +35,7 @@ public class RPCEvents {
             lastgui = e.gui;
             oldaddress = "none";
             DiscordMod.player = Minecraft.getMinecraft().thePlayer;
-            rpc.menu(client);
+            rpc.menu();
         }
     }
 
@@ -73,8 +69,7 @@ public class RPCEvents {
     public void multiplayer(EntityJoinWorldEvent e) {
         ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
         Minecraft mc = Minecraft.getMinecraft();
-        String ServerName = "unknown";
-        String address = "unknown";
+        String address;
         if(e.entity == mc.thePlayer) {
             //DiscordMod.sendPlayerMessage(mc.thePlayer, "Player found");
             if (!(serverData == null)) {
@@ -82,20 +77,17 @@ public class RPCEvents {
                 if (!mc.isIntegratedServerRunning()) {
                     //DiscordMod.sendPlayerMessage(mc.thePlayer, "not intergrated");
                     address = serverData.serverIP;
-                    ServerName = serverData.serverName;
                     if (oldaddress == null) {
                         oldaddress = "none";
                     }
                     if (!oldaddress.equals(address)) {
                         oldaddress = address;
-                        rpc.server(client, address, ServerName, serverData);
+                        rpc.server(address, serverData);
                         //DiscordMod.sendPlayerMessage(mc.thePlayer, "Set the rich presence");
                     }
                 }
             }
-        }else{
-            //DiscordMod.sendPlayerMessage(mc.thePlayer, "Not player");
-        }
+        }//DiscordMod.sendPlayerMessage(mc.thePlayer, "Not player");
 
 
         //assert serverData != null;
@@ -113,7 +105,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldaddress = "none";
-            rpc.single(client);
+            rpc.single();
         }
     }
 
