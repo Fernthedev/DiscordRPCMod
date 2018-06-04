@@ -46,7 +46,7 @@ public class DiscordMod {
         handler = new DiscordEventHandlers();
         instance = this;
         rpc = new RPC();
-        new RPCEvents(rpc,this);
+        new RPCEvents(rpc);
 
         handler.ready = new ReadyEvent();
         handler.joinGame = new JoinEvent();
@@ -63,7 +63,7 @@ public class DiscordMod {
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
         rpc.menu(client);
-        MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc,this));
+        MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }
 
