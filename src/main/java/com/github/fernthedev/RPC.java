@@ -5,16 +5,15 @@ import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
+@SuppressWarnings("WeakerAccess")
 public class RPC {
 
-    public static String address;
-    public static String Players;
-    public static String ServerName;
     private long unixTime = System.currentTimeMillis() / 1000L;
+
 
     public static String secret;
 
-    public void menu(String client) {
+    public void menu() {
         /*client.setListener(new IPCListener(){
             @Override
             public void onReady(IPCClient client)
@@ -50,7 +49,7 @@ public class RPC {
         DiscordRPC.discordUpdatePresence(rich);
     }
 
-    public void server(String client, String address, String ServerName, ServerData serverData) {
+    public void server(String address, ServerData serverData) {
 
         DiscordRichPresence rich = new DiscordRichPresence();
         rich.details = "Playing on a server";
@@ -117,7 +116,7 @@ public class RPC {
         }*/
     }
 
-    public void single(String client) {
+    public void single() {
         DiscordRichPresence rich = new DiscordRichPresence();
         rich.state = "Playing Survival";
         rich.details = "Playing Mc like a normal person";
