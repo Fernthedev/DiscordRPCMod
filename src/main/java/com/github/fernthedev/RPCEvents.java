@@ -18,14 +18,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RPCEvents {
 
     private RPC rpc;
-    private String client;
     private Gui lastgui;
     private String oldadress;
 
     @SuppressWarnings("WeakerAccess")
     public RPCEvents(RPC rpc) {
         this.rpc = rpc;
-        client = DiscordMod.client;
         oldadress = "none";
         lastgui = null;
     }
@@ -41,7 +39,7 @@ public class RPCEvents {
                 lastgui = e.getGui();
                 DiscordMod.player = Minecraft.getMinecraft().player;
                 oldadress = "none";
-                rpc.menu(client);
+                rpc.menu();
             }
         }
     }
@@ -51,7 +49,6 @@ public class RPCEvents {
         //EntityPlayer player = Minecraft.getMinecraft().player;
         ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
         Minecraft mc = Minecraft.getMinecraft();
-        String ServerName;
         String address = "unknown";
         if(!(serverData == null)) {
             if(e.getEntity() == mc.player) {
@@ -61,8 +58,7 @@ public class RPCEvents {
                     }
                     if (!oldadress.equals(address)) {
                         address = serverData.serverIP;
-                        ServerName = serverData.serverName;
-                        rpc.server(client, address, ServerName, serverData);
+                        rpc.server(address, serverData);
                     }
                 }
             }
@@ -84,7 +80,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldadress = "none";
-            rpc.single(client);
+            rpc.single();
         }
     }
 

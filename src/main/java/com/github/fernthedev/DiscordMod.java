@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * DISCORD RPC LIBRARIES PROVIDED BY VATUU (NOT DIRECTLY)
  * Github repository found at <a href="https://github.com/Vatuu/discord-rpc">https://github.com/Vatuu/discord-rpc</a>
  */
+@SuppressWarnings("WeakerAccess")
 @Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.12,")
 public class DiscordMod {
     public static final String MODID = "discordmod112";
@@ -29,9 +30,7 @@ public class DiscordMod {
 
     private RPC rpc;
     public static String client;
-    private static DiscordMod instance;
     public static EntityPlayer player;
-    private DiscordEventHandlers handler;
     //private static IPCClient client;
 
     @EventHandler
@@ -43,8 +42,7 @@ public class DiscordMod {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        handler = new DiscordEventHandlers();
-        instance = this;
+        DiscordEventHandlers handler = new DiscordEventHandlers();
         rpc = new RPC();
         new RPCEvents(rpc);
 
@@ -62,7 +60,7 @@ public class DiscordMod {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
-        rpc.menu(client);
+        rpc.menu();
         MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }
@@ -74,15 +72,12 @@ public class DiscordMod {
         DiscordRPC.discordShutdown();
     }
 
-    public static DiscordMod getInstance() {
-        return instance;
-    }
-
     public static void sendPlayerMessage(EntityPlayer player, String message) {
      //player.sendMessage(new TextComponentString(message));
      player.sendMessage(new TextComponentString(message));
     }
 
+    @SuppressWarnings("unused")
     public static void sendPlayerMessage(EntityPlayer player,ITextComponent iTextComponents) {
         player.sendMessage(iTextComponents);
     }
