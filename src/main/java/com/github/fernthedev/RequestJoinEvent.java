@@ -1,7 +1,6 @@
 package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordReply;
 import net.arikia.dev.drpc.DiscordUser;
 import net.arikia.dev.drpc.callbacks.JoinRequestCallback;
 import net.minecraft.client.Minecraft;
@@ -14,10 +13,10 @@ public class RequestJoinEvent implements JoinRequestCallback {
         ServerData server = mc.getCurrentServerData();
         boolean isNotNull = false;
         if(server == null) {
-            DiscordRPC.discordRespond(discordUser.userId,DiscordReply.NO);
+            DiscordRPC.discordRespond(discordUser.userId,DiscordRPC.DiscordReply.NO);
         }else{
             if(server.serverIP == null) {
-                DiscordRPC.discordRespond(discordUser.userId,DiscordReply.NO);
+                DiscordRPC.discordRespond(discordUser.userId,DiscordRPC.DiscordReply.NO);
             }else{
                 isNotNull = true;
             }
