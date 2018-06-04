@@ -15,6 +15,7 @@ public class OptionMenu extends GuiScreen {
     private boolean reply;
     private DiscordUser discordUser;
 
+    @SuppressWarnings("WeakerAccess")
     public OptionMenu(boolean reply, DiscordUser discordUser) {
         this.reply = reply;
         this.discordUser = discordUser;
