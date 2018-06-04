@@ -30,7 +30,10 @@ configurations {
 }
 
 reobf {
-    shadowJar // Reobfuscate the shadowed JAR
+    //noinspection GroovyMissingReturnStatement
+    shadowJar {
+        // Reobfuscate the shadowed JAR
+    }
 }
 
 shadowJar {
