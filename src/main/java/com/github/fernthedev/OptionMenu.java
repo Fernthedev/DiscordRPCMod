@@ -1,16 +1,12 @@
 package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordReply;
 import net.arikia.dev.drpc.DiscordUser;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OptionMenu extends GuiScreen {
 
@@ -68,18 +64,18 @@ public class OptionMenu extends GuiScreen {
             //System.out.println("Closed");
             //mc.thePlayer.closeScreen();
             if(reply)
-            DiscordRPC.discordRespond(discordUser.userId, DiscordReply.IGNORE);
+            DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.IGNORE);
         }
         if(button == acceptbutton) {
             if(reply)
-            DiscordRPC.discordRespond(discordUser.userId, DiscordReply.YES);
+            DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.YES);
             //System.out.println("Yes");
             //mc.thePlayer.closeScreen();
         }
 
         if(button == denybutton) {
             if(reply)
-            DiscordRPC.discordRespond(discordUser.userId, DiscordReply.NO);
+            DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.NO);
             //System.out.println("No");
             //mc.thePlayer.closeScreen();
         }
