@@ -3,21 +3,15 @@ package com.github.fernthedev;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordUser;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
-
-import java.io.IOException;
 
 public class OptionMenu extends GuiScreen {
 
     private GuiButton closebutton;
-    private GuiLabel closelabel;
 
     private GuiButton acceptbutton;
-    private GuiLabel acceptlabel;
 
     private GuiButton denybutton;
-    private GuiLabel denylabel;
     private boolean reply;
     private DiscordUser discordUser;
 
@@ -58,7 +52,7 @@ public class OptionMenu extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         if (button == closebutton) {
             //System.out.println("Closed");
             //mc.thePlayer.closeScreen();
