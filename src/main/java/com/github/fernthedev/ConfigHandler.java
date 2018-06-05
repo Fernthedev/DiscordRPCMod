@@ -21,7 +21,7 @@ public class ConfigHandler {
     public enum Settings {
         message,
         autoignore,
-        showpresence;
+        showpresence
     }
 
 
@@ -55,6 +55,7 @@ public class ConfigHandler {
         config.save();
     }
 
+    @SuppressWarnings("unused")
     public static void updateConfig(Boolean value,Settings setting) {
         String category = "discord";
         config.load();
@@ -67,7 +68,7 @@ public class ConfigHandler {
         }
         config.save();
     }
-
+    @SuppressWarnings("unused")
     public static void updateConfig(String value,Settings setting) {
         String category = "discord";
         config.load();
