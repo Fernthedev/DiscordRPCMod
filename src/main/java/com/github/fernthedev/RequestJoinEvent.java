@@ -12,23 +12,27 @@ public class RequestJoinEvent implements JoinRequestCallback {
         Minecraft mc = Minecraft.getMinecraft();
         ServerData server = mc.getCurrentServerData();
         boolean isNotNull = false;
-        if(server == null) {
-            DiscordRPC.discordRespond(discordUser.userId,DiscordRPC.DiscordReply.NO);
-        }else{
-            if(server.serverIP == null) {
-                DiscordRPC.discordRespond(discordUser.userId,DiscordRPC.DiscordReply.NO);
-            }else{
-                isNotNull = true;
+        if(!ConfigHandler.autoignore) {
+            if (server == null) {
+                DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.NO);
+            } else {
+                if (server.serverIP == null) {
+                    DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.NO);
+                } else {
+                    isNotNull = true;
+                }
             }
-        }
-        if(isNotNull) {
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The user " + discordUser + " has requested to join you");
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The userid is " + discordUser.userId);
-            DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The secret is " + RPC.secret);
-            if (RPC.secret.equals(server.serverIP)) {
-                mc.displayGuiScreen(new OptionMenu(true,discordUser));
-            }
+            if (isNotNull) {
+                DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The user " + discordUser + " has requested to join you");
+                DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The userid is " + discordUser.userId);
+                DiscordMod.sendPlayerMessage(Minecraft.getMinecraft().thePlayer, "The secret is " + RPC.secret);
+                if (RPC.secret.equals(server.serverIP)) {
+                    mc.displayGuiScreen(new OptionMenu(true, discordUser));
+                }
                 //DiscordRPC.discordRespond(discordUser.userId, DiscordReply.YES);
+            }
+        }else{
+            DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.IGNORE);
         }
     }
 }

@@ -18,7 +18,7 @@ plugins {
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.2.1"
+version = "1.3"
 group = "com.github.fernthedev" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "DiscordMod"
 
@@ -97,6 +97,8 @@ dependencies {
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 }
+
+idea { module { inheritOutputDirs = true; } }
 
 processResources {
     // this will ensure that this task is redone when the versions change.
