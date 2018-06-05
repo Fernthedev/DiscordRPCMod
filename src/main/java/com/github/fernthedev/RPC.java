@@ -107,7 +107,7 @@ public class RPC {
                 } else if (ip.contains("giantcraft.net")) {
                     rich.smallImageText = "GiantCraftMC";
                     rich.smallImageKey = "giantcraft";
-                }else if(ip.contains("blockmc.com")) {
+                }else if(ip.contains("blocksmc.com")) {
                     rich.smallImageText = "BlocksMC";
                     rich.smallImageKey = "blocksmc";
                 }
