@@ -39,7 +39,7 @@ public class RPCEvents {
                 lastgui = e.getGui();
                 DiscordMod.player = Minecraft.getMinecraft().player;
                 oldadress = "none";
-                rpc.menu();
+                RPC.menu();
             }
         }
     }
@@ -58,7 +58,7 @@ public class RPCEvents {
                     }
                     if (!oldadress.equals(address)) {
                         address = serverData.serverIP;
-                        rpc.server(address, serverData);
+                        RPC.server(address, serverData);
                     }
                 }
             }
@@ -80,7 +80,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldadress = "none";
-            rpc.single();
+            RPC.single();
         }
     }
 
