@@ -17,13 +17,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RPCEvents {
 
-    private RPC rpc;
     private Gui lastgui;
     private String oldadress;
 
     @SuppressWarnings("WeakerAccess")
-    public RPCEvents(RPC rpc) {
-        this.rpc = rpc;
+    public RPCEvents() {
         oldadress = "none";
         lastgui = null;
     }

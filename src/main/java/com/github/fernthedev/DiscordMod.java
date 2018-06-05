@@ -30,7 +30,6 @@ public class DiscordMod {
     public static final String NAME = "Discord";
     public static final String VERSION = "1.3";
 
-    private RPC rpc;
     public static String client;
     public static EntityPlayer player;
     public static File configfile;
@@ -47,11 +46,12 @@ public class DiscordMod {
 
 
     @SideOnly(Side.CLIENT)
+    @SuppressWarnings("unused")
     @EventHandler
     public void init(FMLInitializationEvent event) {
         DiscordEventHandlers handler = new DiscordEventHandlers();
-        rpc = new RPC();
-        new RPCEvents(rpc);
+        RPC rpc = new RPC();
+        new RPCEvents();
 
         handler.ready = new ReadyEvent();
         handler.joinGame = new JoinEvent();
@@ -68,7 +68,7 @@ public class DiscordMod {
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
         RPC.menu();
-        MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
+        MinecraftForge.EVENT_BUS.register(new RPCEvents());
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }
 
