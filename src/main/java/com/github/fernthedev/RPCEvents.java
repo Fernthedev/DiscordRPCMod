@@ -2,7 +2,10 @@ package com.github.fernthedev;
 
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreenServerList;
+import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -35,7 +38,7 @@ public class RPCEvents {
             lastgui = e.gui;
             oldaddress = "none";
             DiscordMod.player = Minecraft.getMinecraft().thePlayer;
-            rpc.menu();
+            RPC.menu();
         }
     }
 
@@ -82,7 +85,7 @@ public class RPCEvents {
                     }
                     if (!oldaddress.equals(address)) {
                         oldaddress = address;
-                        rpc.server(address, serverData);
+                        RPC.server(address, serverData);
                         //DiscordMod.sendPlayerMessage(mc.thePlayer, "Set the rich presence");
                     }
                 }
@@ -105,7 +108,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldaddress = "none";
-            rpc.single();
+            RPC.single();
         }
     }
 

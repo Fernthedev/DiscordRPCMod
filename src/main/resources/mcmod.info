@@ -1,6 +1,6 @@
 [
 {
-  "modid": "DiscordMod",
+  "modid": "discordmod",
   "name": "Discord",
   "description": "Enables Rich Presence For your profile.",
   "version": "${version}",

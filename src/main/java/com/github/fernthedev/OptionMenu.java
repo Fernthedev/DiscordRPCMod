@@ -21,7 +21,8 @@ public class OptionMenu extends GuiScreen {
         this.discordUser = discordUser;
     }
 
-    /*@SubscribeEvent
+    /*@SuppressWarnings("unchecked")
+    @SubscribeEvent
     public void openMenu(GuiScreenEvent.InitGuiEvent e) {
         if(e.gui instanceof GuiOptions) {
             GuiButton optionMenu = new GuiButton(89,this.width / 2 - 20, this.height - (this.height / 4) - 40,"Discord");
@@ -34,7 +35,8 @@ public class OptionMenu extends GuiScreen {
         if(e.gui instanceof GuiOptions) {
             if(e.button.id == 89) {
                 Minecraft minecraft = Minecraft.getMinecraft();
-                minecraft.displayGuiScreen(this);
+                minecraft.thePlayer.closeScreen();
+                minecraft.displayGuiScreen(new ConfigMenu());
             }
         }
     }*/
@@ -56,7 +58,7 @@ public class OptionMenu extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         if (button == closebutton) {
             //System.out.println("Closed");
-            //mc.thePlayer.closeScreen();
+            mc.thePlayer.closeScreen();
             if(reply)
             DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.IGNORE);
         }
