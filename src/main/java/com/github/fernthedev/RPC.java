@@ -104,6 +104,12 @@ public class RPC {
                 } else if (ip.contains("aternos")) {
                     rich.smallImageText = "Aternos server";
                     rich.smallImageKey = "aternos";
+                } else if (ip.contains("giantcraft.net")) {
+                    rich.smallImageText = "GiantCraftMC";
+                    rich.smallImageKey = "giantcraft";
+                }else if(ip.contains("blockmc.com")) {
+                    rich.smallImageText = "BlocksMC";
+                    rich.smallImageKey = "blocksmc";
                 }
             /*MinecraftServer server = Minecraft.getMinecraft().getIntegratedServer();
             assert server != null;
