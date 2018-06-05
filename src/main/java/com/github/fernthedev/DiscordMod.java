@@ -17,24 +17,31 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.File;
+
 /**
  * DISCORD RPC LIBRARIES PROVIDED BY VATUU (NOT DIRECTLY)
  * Github repository found at <a href="https://github.com/Vatuu/discord-rpc">https://github.com/Vatuu/discord-rpc</a>
  */
 @SuppressWarnings("WeakerAccess")
-@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.12,")
+@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.12,",guiFactory = "com.github.fernthedev.GUIFactory")
 public class DiscordMod {
-    public static final String MODID = "discordmod112";
+    public static final String MODID = "discord";
     public static final String NAME = "Discord";
-    public static final String VERSION = "1.2.1";
+    public static final String VERSION = "1.3";
 
     private RPC rpc;
     public static String client;
     public static EntityPlayer player;
+    public static File configfile;
     //private static IPCClient client;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+                configfile = event.getSuggestedConfigurationFile();
+                ConfigHandler.init(configfile);
+                //FMLCommonHandler.instance().bus().register(new ConfigHandler());
+                MinecraftForge.EVENT_BUS.register(new ConfigHandler());
     }
 
 
@@ -60,7 +67,7 @@ public class DiscordMod {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
-        rpc.menu();
+        RPC.menu();
         MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }

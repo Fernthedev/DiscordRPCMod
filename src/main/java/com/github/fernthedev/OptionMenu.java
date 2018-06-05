@@ -56,7 +56,7 @@ public class OptionMenu extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         if (button == closebutton) {
             //System.out.println("Closed");
-            //mc.thePlayer.closeScreen();
+            mc.player.closeScreen();
             if(reply)
                 DiscordRPC.discordRespond(discordUser.userId, DiscordRPC.DiscordReply.IGNORE);
         }
