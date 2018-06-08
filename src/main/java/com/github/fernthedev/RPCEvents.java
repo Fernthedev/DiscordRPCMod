@@ -38,7 +38,7 @@ public class RPCEvents {
             lastgui = e.gui;
             oldaddress = "none";
             DiscordMod.player = Minecraft.getMinecraft().thePlayer;
-            RPC.menu();
+            rpc.menu();
         }
     }
 
@@ -85,7 +85,7 @@ public class RPCEvents {
                     }
                     if (!oldaddress.equals(address)) {
                         oldaddress = address;
-                        RPC.server(address, serverData);
+                        rpc.server(address, serverData);
                         //DiscordMod.sendPlayerMessage(mc.thePlayer, "Set the rich presence");
                     }
                 }
@@ -108,7 +108,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldaddress = "none";
-            RPC.single();
+            rpc.single();
         }
     }
 

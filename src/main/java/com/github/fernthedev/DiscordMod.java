@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
@@ -34,8 +35,8 @@ public class DiscordMod {
     public static String client;
     public static EntityPlayer player;
     public static File configfile;
+    private static Logger logger;
 
-    private static DiscordMod instance;
     @SuppressWarnings("unused")
     public static double ver() {
         return Double.parseDouble(Minecraft.getMinecraft().getVersion());
@@ -44,13 +45,14 @@ public class DiscordMod {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        instance = this;
         //Configuration config = new Configuration(new File("config/DiscordRPC.cfg"));
         //File configDir = new File(event.getModConfigurationDirectory() + "/" + event.getSuggestedConfigurationFile());
         //configfile = new File("config/" + DiscordMod.MODID + ".cfg");
+        logger = event.getModLog();
         configfile = event.getSuggestedConfigurationFile();
+        rpc = new RPC();
         ConfigHandler.init(configfile);
-        FMLCommonHandler.instance().bus().register(new ConfigHandler());
+        FMLCommonHandler.instance().bus().register(new ConfigHandler(rpc));
     }
 
 
@@ -59,7 +61,7 @@ public class DiscordMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         DiscordEventHandlers handler = new DiscordEventHandlers();
-        rpc = new RPC();
+
         new RPCEvents(rpc);
 
         handler.ready = new ReadyEvent();
@@ -77,7 +79,7 @@ public class DiscordMod {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
-        RPC.menu();
+        rpc.menu();
         MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }
@@ -97,6 +99,10 @@ public class DiscordMod {
     @SuppressWarnings("unused")
     public static void sendPlayerMessage(EntityPlayer player, IChatComponent component) {
         player.addChatMessage(component);
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }
 
