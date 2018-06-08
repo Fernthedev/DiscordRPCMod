@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
@@ -24,7 +25,7 @@ import java.io.File;
  * Github repository found at <a href="https://github.com/Vatuu/discord-rpc">https://github.com/Vatuu/discord-rpc</a>
  */
 @SuppressWarnings("WeakerAccess")
-@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "1.12,",guiFactory = "com.github.fernthedev.GUIFactory")
+@Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION, clientSideOnly = true,acceptedMinecraftVersions = "1.12,",guiFactory = "com.github.fernthedev.GUIFactory")
 public class DiscordMod {
     public static final String MODID = "discord";
     public static final String NAME = "Discord";
@@ -33,14 +34,19 @@ public class DiscordMod {
     public static String client;
     public static EntityPlayer player;
     public static File configfile;
+
+    private RPC rpc;
+    private static Logger logger;
     //private static IPCClient client;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-                configfile = event.getSuggestedConfigurationFile();
-                ConfigHandler.init(configfile);
-                //FMLCommonHandler.instance().bus().register(new ConfigHandler());
-                MinecraftForge.EVENT_BUS.register(new ConfigHandler());
+        logger = event.getModLog();
+        configfile = event.getSuggestedConfigurationFile();
+        rpc = new RPC();
+        ConfigHandler.init(configfile);
+        //FMLCommonHandler.instance().bus().register(new ConfigHandler());
+        MinecraftForge.EVENT_BUS.register(new ConfigHandler(rpc));
     }
 
 
@@ -50,8 +56,8 @@ public class DiscordMod {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         DiscordEventHandlers handler = new DiscordEventHandlers();
-        RPC rpc = new RPC();
-        new RPCEvents();
+
+        new RPCEvents(rpc);
 
         handler.ready = new ReadyEvent();
         handler.joinGame = new JoinEvent();
@@ -67,8 +73,8 @@ public class DiscordMod {
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
-        RPC.menu();
-        MinecraftForge.EVENT_BUS.register(new RPCEvents());
+        rpc.menu();
+        MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
     }
 
@@ -87,6 +93,10 @@ public class DiscordMod {
     @SuppressWarnings("unused")
     public static void sendPlayerMessage(EntityPlayer player,ITextComponent iTextComponents) {
         player.sendMessage(iTextComponents);
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }
 
