@@ -2,19 +2,18 @@ package com.github.fernthedev;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 
 public class ConfigMenu extends GuiConfig {
 
-
+/*
     private GuiButton closebutton;
 
     private GuiButton autoignore;
     private GuiButton showpresence;
     private GuiTextField text;
-    private String textmessage;
+    private String textmessage;*/
 
     //public ConfigMenu(GuiScreen parentScreen, List<IConfigElement> configElements, String modID, String configID, boolean allRequireWorldRestart, boolean allRequireMcRestart, String title) {
       //  super(parentScreen, configElements, modID, configID, allRequireWorldRestart, allRequireMcRestart, title);

@@ -23,7 +23,7 @@ public class RPC {
     }
 
     public static status currentStatus;
-    public static void menu() {
+    public void menu() {
         /*client.setListener(new IPCListener(){
             @Override
             public void onReady(IPCClient client)
@@ -64,7 +64,7 @@ public class RPC {
         }
     }
 
-    public static void server(String address, ServerData serverData) {
+    public void server(String address, ServerData serverData) {
         if(ConfigHandler.showpresence) {
             String message = "Playing on a server";
             if(!ConfigHandler.message.equals("none")) {
@@ -148,7 +148,7 @@ public class RPC {
         }*/
     }
 
-    public static void single() {
+    public void single() {
         ConfigHandler.syncConfig();
         if(ConfigHandler.showpresence) {
             String message = "Playing Mc like a normal person";
@@ -190,15 +190,16 @@ public class RPC {
     }*/
     }
 
-    public static void updateStatus() {
-        if(currentStatus == status.single) {
+    public void updateStatus() {
+        DiscordMod.getLogger().info("UPDATING STATUS");
+        if (currentStatus == status.single) {
             single();
         }
-        if(currentStatus == status.menu) {
+        if (currentStatus == status.menu) {
             menu();
         }
-        if(currentStatus == status.server) {
-            server(currentaddress,currentserver);
+        if (currentStatus == status.server) {
+            server(currentaddress, currentserver);
         }
     }
 }
