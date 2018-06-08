@@ -20,8 +20,12 @@ public class RPCEvents {
     private Gui lastgui;
     private String oldadress;
 
+    private RPC rpc;
+
+
     @SuppressWarnings("WeakerAccess")
-    public RPCEvents() {
+    public RPCEvents(RPC rpc) {
+        this.rpc = rpc;
         oldadress = "none";
         lastgui = null;
     }
@@ -37,7 +41,7 @@ public class RPCEvents {
                 lastgui = e.getGui();
                 DiscordMod.player = Minecraft.getMinecraft().player;
                 oldadress = "none";
-                RPC.menu();
+                rpc.menu();
             }
         }
     }
@@ -56,7 +60,7 @@ public class RPCEvents {
                     }
                     if (!oldadress.equals(address)) {
                         address = serverData.serverIP;
-                        RPC.server(address, serverData);
+                        rpc.server(address, serverData);
                     }
                 }
             }
@@ -78,7 +82,7 @@ public class RPCEvents {
 
         if(serverData == null || mc.isIntegratedServerRunning()) {
             oldadress = "none";
-            RPC.single();
+            rpc.single();
         }
     }
 

@@ -18,19 +18,24 @@ public class ConfigHandler {
     public static boolean autoignore;
     public static boolean showpresence;
 
+    private RPC rpc;
+
     public enum Settings {
         message,
         autoignore,
         showpresence
     }
 
+    public ConfigHandler(RPC rpc) {
+        this.rpc = rpc;
+    }
 
 
     public static void init(File file) {
         config = new Configuration(file);
         try {
             config.load();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("No config");
         } finally {
             config.save();
@@ -48,45 +53,52 @@ public class ConfigHandler {
 
         category = "discord";
         config.addCustomCategoryComment(category, "Rich Presence Mode Settings");
-        message = config.getString("message",category,"none","Changes message shown while playing");
-        autoignore = config.getBoolean("autoIgnore",category,false,"Auto ignores join requests");
-        showpresence = config.getBoolean("showPresence",category,true,"Shows presence in discord");
+        message = config.getString("message", category, "none", "Changes message shown while playing");
+        autoignore = config.getBoolean("autoignore", category, false, "Auto ignores join requests");
+        showpresence = config.getBoolean("showpresence", category, true, "Shows presence in discord");
+
+        //showpresence = config.get(category,"showpresence",true).getBoolean();
+
 
         config.save();
     }
 
     @SuppressWarnings("unused")
-    public static void updateConfig(Boolean value,Settings setting) {
+    public static void updateConfig(Boolean value, Settings setting) {
         String category = "discord";
         config.load();
-        if(setting == Settings.showpresence) {
-            config.getCategory(category).get("showPresence").set(value);
+        if (setting == Settings.showpresence) {
+            config.getCategory(category).get("showpresence").set(value);
         }
 
-        if(setting == Settings.autoignore) {
-            config.getCategory(category).get("autoIgnore").set(value);
+        if (setting == Settings.autoignore) {
+            config.getCategory(category).get("autoignore").set(value);
         }
         config.save();
     }
+
     @SuppressWarnings("unused")
-    public static void updateConfig(String value,Settings setting) {
+    public static void updateConfig(String value, Settings setting) {
         String category = "discord";
         config.load();
-        if(setting == Settings.message) {
+        if (setting == Settings.message) {
             config.getCategory(category).get("message").set(value);
         }
         config.save();
     }
 
     @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent e) {
+    public void onConfigChange(ConfigChangedEvent.PostConfigChangedEvent e) {
         if (e.getModID().equalsIgnoreCase(DiscordMod.MODID)) {
             config.save();
-            if (!ConfigHandler.showpresence) {
+            if (ConfigHandler.showpresence) {
+                DiscordMod.getLogger().info("CLEAR STATUS");
                 DiscordRPC.discordClearPresence();
-            }else{
-                RPC.updateStatus();
+            }
+            if(!ConfigHandler.showpresence) {
+                rpc.updateStatus();
             }
         }
     }
 }
+

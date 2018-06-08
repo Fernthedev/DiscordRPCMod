@@ -22,8 +22,9 @@ public class RPC {
         single
     }
 
-    public static status currentStatus;
-    public static void menu() {
+    public status currentStatus;
+
+    public void menu() {
         /*client.setListener(new IPCListener(){
             @Override
             public void onReady(IPCClient client)
@@ -47,9 +48,9 @@ public class RPC {
             e1.printStackTrace();
         }*/
         ConfigHandler.syncConfig();
-        if(ConfigHandler.showpresence) {
+        if (ConfigHandler.showpresence) {
             String message = "Just doing stuff. Waiting. You Know.";
-            if(!ConfigHandler.message.equals("none")) {
+            if (!ConfigHandler.message.equals("none")) {
                 message = ConfigHandler.message;
             }
             DiscordRichPresence rich = new DiscordRichPresence();
@@ -60,14 +61,14 @@ public class RPC {
             rich.startTimestamp = unixTime;
 
             DiscordRPC.discordUpdatePresence(rich);
-            currentStatus = status.menu;
         }
+        currentStatus = status.menu;
     }
 
-    public static void server(String address, ServerData serverData) {
-        if(ConfigHandler.showpresence) {
+    public void server(String address, ServerData serverData) {
+        if (ConfigHandler.showpresence) {
             String message = "Playing on a server";
-            if(!ConfigHandler.message.equals("none")) {
+            if (!ConfigHandler.message.equals("none")) {
                 message = ConfigHandler.message;
             }
             DiscordRichPresence rich = new DiscordRichPresence();
@@ -104,10 +105,10 @@ public class RPC {
                 } else if (ip.contains("aternos")) {
                     rich.smallImageText = "Aternos server";
                     rich.smallImageKey = "aternos";
-                }else if (ip.contains("giantcraft.net")) {
+                } else if (ip.contains("giantcraft.net")) {
                     rich.smallImageText = "GiantCraftMC";
                     rich.smallImageKey = "giantcraft";
-                }else if(ip.contains("blocksmc.com")) {
+                } else if (ip.contains("blocksmc.com")) {
                     rich.smallImageText = "BlocksMC";
                     rich.smallImageKey = "blocksmc";
                 }
@@ -119,10 +120,10 @@ public class RPC {
             rich.startTimestamp = unixTime;
 
             DiscordRPC.discordUpdatePresence(rich);
-            currentStatus = status.server;
             currentaddress = address;
             currentserver = serverData;
         }
+        currentStatus = status.server;
 
         /*client.setListener(new IPCListener(){
             @Override
@@ -148,11 +149,11 @@ public class RPC {
         }*/
     }
 
-    public static void single() {
+    public void single() {
         ConfigHandler.syncConfig();
-        if(ConfigHandler.showpresence) {
+        if (ConfigHandler.showpresence) {
             String message = "Playing Mc like a normal person";
-            if(!ConfigHandler.message.equals("none")) {
+            if (!ConfigHandler.message.equals("none")) {
                 message = ConfigHandler.message;
             }
             DiscordRichPresence rich = new DiscordRichPresence();
@@ -163,8 +164,8 @@ public class RPC {
             rich.startTimestamp = unixTime;
 
             DiscordRPC.discordUpdatePresence(rich);
-            currentStatus = status.single;
         }
+        currentStatus = status.single;
         /*client.setListener(new IPCListener(){
             @Override
             public void onReady(IPCClient client)
@@ -190,15 +191,17 @@ public class RPC {
     }*/
     }
 
-    public static void updateStatus() {
-        if(currentStatus == status.single) {
+    public void updateStatus() {
+        DiscordMod.getLogger().info("UPDATING STATUS");
+        if (currentStatus == status.single) {
             single();
         }
-        if(currentStatus == status.menu) {
+        if (currentStatus == status.menu) {
             menu();
         }
-        if(currentStatus == status.server) {
-            server(currentaddress,currentserver);
+        if (currentStatus == status.server) {
+            server(currentaddress, currentserver);
         }
     }
 }
+
