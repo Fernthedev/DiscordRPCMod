@@ -1,9 +1,8 @@
 package com.github.fernthedev;
 
-import net.arikia.dev.drpc.DiscordRPC;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
 
@@ -55,7 +54,7 @@ public class ConfigHandler {
         config.addCustomCategoryComment(category, "Rich Presence Mode Settings");
         message = config.getString("message", category, "none", "Changes message shown while playing");
         autoignore = config.getBoolean("autoignore", category, false, "Auto ignores join requests");
-        showpresence = config.getBoolean("showpresence", category, true, "Shows presence in discord");
+        //showpresence = config.getBoolean("showpresence", category, true, "Shows presence in discord");
 
         //showpresence = config.get(category,"showpresence",true).getBoolean();
 
@@ -88,16 +87,10 @@ public class ConfigHandler {
     }
 
     @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.PostConfigChangedEvent e) {
+    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent e) {
         if (e.modID.equalsIgnoreCase(DiscordMod.MODID)) {
             config.save();
-            if (ConfigHandler.showpresence) {
-                DiscordMod.getLogger().info("CLEAR STATUS");
-                DiscordRPC.discordClearPresence();
-            }
-            if(!ConfigHandler.showpresence) {
-                rpc.updateStatus();
-            }
+            rpc.updateStatus();
         }
     }
 }

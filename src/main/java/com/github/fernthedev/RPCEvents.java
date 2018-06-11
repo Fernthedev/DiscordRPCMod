@@ -1,5 +1,10 @@
 package com.github.fernthedev;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -9,11 +14,6 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RPCEvents {
 
@@ -31,14 +31,14 @@ public class RPCEvents {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void menuOpened(GuiScreenEvent e) {
-        if(lastgui == null) {
+        /*if(lastgui == null) {
             lastgui = e.gui;
-        }
-        if ((e.gui instanceof GuiMainMenu || e.gui instanceof GuiScreenServerList || e.gui instanceof GuiSelectWorld) && !(lastgui instanceof GuiMainMenu || lastgui instanceof GuiScreenServerList || lastgui instanceof GuiSelectWorld)) {
-            lastgui = e.gui;
-            oldaddress = "none";
-            DiscordMod.player = Minecraft.getMinecraft().thePlayer;
-            rpc.menu();
+        }*/
+        if ((e.gui instanceof GuiMainMenu || e.gui instanceof GuiScreenServerList || e.gui instanceof GuiSelectWorld)) {
+                lastgui = e.gui;
+                oldaddress = "none";
+                DiscordMod.player = Minecraft.getMinecraft().thePlayer;
+                rpc.menu();
         }
     }
 
@@ -70,7 +70,7 @@ public class RPCEvents {
 
     @SubscribeEvent
     public void multiplayer(EntityJoinWorldEvent e) {
-        ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
+        ServerData serverData = Minecraft.getMinecraft().func_147104_D();
         Minecraft mc = Minecraft.getMinecraft();
         String address;
         if(e.entity == mc.thePlayer) {
@@ -103,7 +103,7 @@ public class RPCEvents {
 
     @SubscribeEvent
     public void singlePlayer(PlayerEvent.PlayerLoggedInEvent e) {
-        ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
+        ServerData serverData = Minecraft.getMinecraft().func_147104_D();
         Minecraft mc = Minecraft.getMinecraft();
 
         if(serverData == null || mc.isIntegratedServerRunning()) {

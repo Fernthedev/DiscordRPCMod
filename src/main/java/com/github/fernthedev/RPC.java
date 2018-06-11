@@ -191,7 +191,7 @@ public class RPC {
     }
 
     public void updateStatus() {
-        DiscordMod.getLogger().info("UPDATING STATUS");
+        //DiscordMod.getLogger().info("UPDATING STATUS");
         if (currentStatus == status.single) {
             single();
         }

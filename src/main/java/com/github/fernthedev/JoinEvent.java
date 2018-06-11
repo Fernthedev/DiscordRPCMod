@@ -1,9 +1,9 @@
 package com.github.fernthedev;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import net.arikia.dev.drpc.callbacks.JoinGameCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class JoinEvent implements JoinGameCallback {
     @Override

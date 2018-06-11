@@ -10,7 +10,7 @@ public class RequestJoinEvent implements JoinRequestCallback {
     @Override
     public void apply(DiscordUser discordUser) {
         Minecraft mc = Minecraft.getMinecraft();
-        ServerData server = mc.getCurrentServerData();
+        ServerData server = mc.func_147104_D();
         boolean isNotNull = false;
         if(!ConfigHandler.autoignore) {
             if (server == null) {

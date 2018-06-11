@@ -1,9 +1,9 @@
 package com.github.fernthedev;
 
+import cpw.mods.fml.client.config.GuiConfig;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.fml.client.config.GuiConfig;
 
 public class ConfigMenu extends GuiConfig {
 
@@ -19,14 +19,14 @@ public class ConfigMenu extends GuiConfig {
       //  super(parentScreen, configElements, modID, configID, allRequireWorldRestart, allRequireMcRestart, title);
     //}
 
+    @SuppressWarnings("unchecked")
     public ConfigMenu(GuiScreen parentScreen) {
         super(parentScreen,
                 new ConfigElement(
                         ConfigHandler.config.getCategory("discord")).getChildElements(),DiscordMod.MODID,
                         false,
-                        false,
+                        true,
                         "Play with discord's settings :O");
-        titleLine2 = DiscordMod.configfile.getAbsolutePath();
 
     }
 
