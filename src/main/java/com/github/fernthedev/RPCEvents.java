@@ -33,16 +33,14 @@ public class RPCEvents {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void menuOpened(GuiScreenEvent e) {
-        if(lastgui == null) {
+        /*if(lastgui == null) {
             lastgui = e.getGui();
-        }
+        }*/
         if ((e.getGui() instanceof GuiMainMenu || e.getGui() instanceof GuiScreenServerList || e.getGui() instanceof GuiWorldSelection)) {
-            if (lastgui instanceof GuiMainMenu || lastgui instanceof GuiScreenServerList || lastgui instanceof GuiWorldSelection) {
-                lastgui = e.getGui();
-                DiscordMod.player = Minecraft.getMinecraft().player;
-                oldadress = "none";
-                rpc.menu();
-            }
+            lastgui = e.getGui();
+            DiscordMod.player = Minecraft.getMinecraft().player;
+            oldadress = "none";
+            rpc.menu();
         }
     }
 
@@ -52,7 +50,7 @@ public class RPCEvents {
         ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
         Minecraft mc = Minecraft.getMinecraft();
         String address = "unknown";
-        if(!(serverData == null)) {
+        if((serverData != null)) {
             if(e.getEntity() == mc.player) {
                 if (!mc.isIntegratedServerRunning()) {
                     if (oldadress == null) {
@@ -92,6 +90,7 @@ public class RPCEvents {
     public void onTick(TickEvent e) {
         if(tick >= 40) {
             DiscordRPC.discordRunCallbacks();
+            //DiscordMod.print(this,"Running callback");
             tick = 0;
         }
         tick++;

@@ -2,21 +2,32 @@ package com.github.fernthedev;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
+
+import static com.github.fernthedev.DiscordMod.MODID;
 
 
 public class ConfigMenu extends GuiConfig {
+    /**
+     * This constructor handles the {@code @Config} configuration classes
+     *
+     * @param parentScreen the parent GuiScreen object
+     */
     public ConfigMenu(GuiScreen parentScreen) {
+        super(parentScreen, MODID, "thing");
+    }
+    /*
+    public ConfigMenu(GuiScreen parentScreen) {
+
         super(parentScreen,
                 new ConfigElement(
                         ConfigHandler.config.getCategory("discord")).getChildElements(),DiscordMod.MODID,
                 false,
-                false,
+                true,
                 "Play with discord's settings :O");
         titleLine2 = DiscordMod.configfile.getAbsolutePath();
 
-    }
+    }*/
 
     @Override
     public void initGui()
