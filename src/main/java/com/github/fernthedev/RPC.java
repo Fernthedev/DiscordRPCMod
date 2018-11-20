@@ -82,6 +82,12 @@ public class RPC {
 
                 //ip = ip.replace(".","\\");
                 //rich.partyId = ip;
+
+                DiscordMod.print(this, "The ip is " + ip);
+
+                //rich.partyId = ip;
+                rich.partySize = 1;
+                rich.partyMax = 2;
                 rich.joinSecret = ip;
 
                 if (ip.contains("hypixel")) {
@@ -192,7 +198,7 @@ public class RPC {
     }
 
     public void updateStatus() {
-        DiscordMod.getLogger().info("UPDATING STATUS");
+        //DiscordMod.getLogger().info("UPDATING STATUS");
         if (currentStatus == status.single) {
             single();
         }
