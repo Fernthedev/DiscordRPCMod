@@ -24,7 +24,7 @@ public class ConfigMenu extends GuiConfig {
                 new ConfigElement(
                         ConfigHandler.config.getCategory("discord")).getChildElements(),DiscordMod.MODID,
                         false,
-                        false,
+                        true,
                         "Play with discord's settings :O");
         titleLine2 = DiscordMod.configfile.getAbsolutePath();
 

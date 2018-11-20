@@ -18,7 +18,7 @@ public class ConfigHandler {
     public static boolean autoignore;
     public static boolean showpresence;
 
-    private RPC rpc;
+    private static RPC rpc;
 
     public enum Settings {
         message,
@@ -44,6 +44,7 @@ public class ConfigHandler {
     }
 
     public static void syncConfig() {
+        config.save();
         String category;
         config.load();
         //EXAMPLE
@@ -59,7 +60,7 @@ public class ConfigHandler {
 
         //showpresence = config.get(category,"showpresence",true).getBoolean();
 
-
+        if(config.hasChanged())
         config.save();
     }
 
@@ -88,14 +89,16 @@ public class ConfigHandler {
     }
 
     @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent.PostConfigChangedEvent e) {
-        if (e.modID.equalsIgnoreCase(DiscordMod.MODID)) {
-            config.save();
-            if (ConfigHandler.showpresence) {
-                DiscordMod.getLogger().info("CLEAR STATUS");
+    public void onConfigChange(ConfigChangedEvent.OnConfigChangedEvent e) {
+        if (e.modID.equals(DiscordMod.MODID)) {
+            DiscordMod.print(ConfigHandler.class, "ShowPresence: " + showpresence + " ignore: " + autoignore + " message: " + message);
+            syncConfig();
+            DiscordMod.print(ConfigHandler.class, "After ShowPresence: " + showpresence + " ignore: " + autoignore + " message: " + message);
+            if (!ConfigHandler.showpresence) {
+                //DiscordMod.getLogger().info("CLEAR STATUS");
                 DiscordRPC.discordClearPresence();
             }
-            if(!ConfigHandler.showpresence) {
+            if(ConfigHandler.showpresence) {
                 rpc.updateStatus();
             }
         }

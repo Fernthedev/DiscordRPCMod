@@ -18,11 +18,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RPCEvents {
 
     private RPC rpc;
-    private String oldaddress;
+    private  String oldaddress;
     private Gui lastgui;
 
     @SuppressWarnings("WeakerAccess")
     public RPCEvents(RPC rpc) {
+        DiscordMod.print(this,"Loaded events");
         this.rpc = rpc;
         lastgui = null;
         oldaddress = "none";
@@ -31,16 +32,18 @@ public class RPCEvents {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void menuOpened(GuiScreenEvent e) {
-        if(lastgui == null) {
+        /*if(lastgui == null) {
             lastgui = e.gui;
-        }
-        if ((e.gui instanceof GuiMainMenu || e.gui instanceof GuiScreenServerList || e.gui instanceof GuiSelectWorld) && !(lastgui instanceof GuiMainMenu || lastgui instanceof GuiScreenServerList || lastgui instanceof GuiSelectWorld)) {
-            lastgui = e.gui;
-            oldaddress = "none";
-            DiscordMod.player = Minecraft.getMinecraft().thePlayer;
-            rpc.menu();
+        }*/
+        if ((e.gui instanceof GuiMainMenu || e.gui instanceof GuiScreenServerList || e.gui instanceof GuiSelectWorld)) {
+                lastgui = e.gui;
+                oldaddress = "none";
+                DiscordMod.player = Minecraft.getMinecraft().thePlayer;
+                rpc.menu();
         }
     }
+
+
 
     /*@SideOnly(Side.CLIENT)
     @SubscribeEvent
@@ -75,7 +78,7 @@ public class RPCEvents {
         String address;
         if(e.entity == mc.thePlayer) {
             //DiscordMod.sendPlayerMessage(mc.thePlayer, "Player found");
-            if (!(serverData == null)) {
+            if ((serverData != null)) {
                 //DiscordMod.sendPlayerMessage(mc.thePlayer, "Server not null");
                 if (!mc.isIntegratedServerRunning()) {
                     //DiscordMod.sendPlayerMessage(mc.thePlayer, "not intergrated");
@@ -85,6 +88,7 @@ public class RPCEvents {
                     }
                     if (!oldaddress.equals(address)) {
                         oldaddress = address;
+                        DiscordMod.print(this,"Is server");
                         rpc.server(address, serverData);
                         //DiscordMod.sendPlayerMessage(mc.thePlayer, "Set the rich presence");
                     }
@@ -112,11 +116,12 @@ public class RPCEvents {
         }
     }
 
-    private int tick;
+    private static int tick;
 
     @SubscribeEvent
     public void onTick(TickEvent e) {
-        if(tick >= 20*5) {
+        if(tick >= 40) {
+            //DiscordMod.print(this,"Running callback");
             DiscordRPC.discordRunCallbacks();
             tick = 0;
         }

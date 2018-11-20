@@ -1,5 +1,6 @@
 package com.github.fernthedev;
 
+import com.github.fernthedev.fernapi.server.forge.FernForgeAPI;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.minecraft.client.Minecraft;
@@ -16,7 +17,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
@@ -26,7 +26,7 @@ import java.io.File;
  */
 @SuppressWarnings("WeakerAccess")
 @Mod(modid = DiscordMod.MODID, name = DiscordMod.NAME, version = DiscordMod.VERSION,canBeDeactivated=true,clientSideOnly = true,acceptedMinecraftVersions = "[1.8,)",guiFactory = "com.github.fernthedev.GUIFactory")
-public class DiscordMod {
+public class DiscordMod extends FernForgeAPI {
     public static final String MODID = "discordmod";
     public static final String NAME = "Discord";
     public static final String VERSION = "1.3.2";
@@ -35,7 +35,6 @@ public class DiscordMod {
     public static String client;
     public static EntityPlayer player;
     public static File configfile;
-    private static Logger logger;
 
     @SuppressWarnings("unused")
     public static double ver() {
@@ -48,7 +47,6 @@ public class DiscordMod {
         //Configuration config = new Configuration(new File("config/DiscordRPC.cfg"));
         //File configDir = new File(event.getModConfigurationDirectory() + "/" + event.getSuggestedConfigurationFile());
         //configfile = new File("config/" + DiscordMod.MODID + ".cfg");
-        logger = event.getModLog();
         configfile = event.getSuggestedConfigurationFile();
         rpc = new RPC();
         ConfigHandler.init(configfile);
@@ -62,26 +60,38 @@ public class DiscordMod {
     public void init(FMLInitializationEvent event) {
         DiscordEventHandlers handler = new DiscordEventHandlers();
 
-        new RPCEvents(rpc);
+        //new RPCEvents(rpc);
+        ConfigHandler.syncConfig();
 
         handler.ready = new ReadyEvent();
         handler.joinRequest = new RequestJoinEvent();
         handler.joinGame = new JoinEvent();
-        client = "448100612987551744L";
-        DiscordRPC.discordInitialize(client, handler,true);
 
+        client = "448100612987551744L";
+        print(this,"Initializing now.");
+        DiscordRPC.discordInitialize(client, handler,true);
+        print(this,"Initialized");
 
         //IThreadListener mainThread = Minecraft.getMinecraft();
         //mainThread.addScheduledTask(DiscordRPC::discordRunCallbacks);
+
         player = Minecraft.getMinecraft().thePlayer;
+
+
+        //do your stuff
+        Runtime.getRuntime().addShutdownHook(new Thread(DiscordRPC::discordShutdown));
     }
 
     @SideOnly(Side.CLIENT)
     @EventHandler
     public void loaded(FMLPostInitializationEvent e) {
+        print(this,"Loaded");
         rpc.menu();
-        MinecraftForge.EVENT_BUS.register(new RPCEvents(rpc));
+        RPCEvents rpcEvents = new RPCEvents(rpc);
+        MinecraftForge.EVENT_BUS.register(rpcEvents);
+        FMLCommonHandler.instance().bus().register(rpcEvents);
         MinecraftForge.EVENT_BUS.register(new OptionMenu(false,null));
+
     }
 
 
@@ -89,6 +99,7 @@ public class DiscordMod {
     @EventHandler
     public void shutdown(FMLModDisabledEvent e) {
         DiscordRPC.discordShutdown();
+
     }
 
 
@@ -96,13 +107,13 @@ public class DiscordMod {
         player.addChatMessage(new ChatComponentText(message));
     }
 
+    public static void print(Object someclass, Object text) {
+        System.out.println("[DiscordMod] ["+someclass +"] " + text);
+    }
+
     @SuppressWarnings("unused")
     public static void sendPlayerMessage(EntityPlayer player, IChatComponent component) {
         player.addChatMessage(component);
-    }
-
-    public static Logger getLogger() {
-        return logger;
     }
 }
 

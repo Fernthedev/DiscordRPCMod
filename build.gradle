@@ -1,24 +1,30 @@
-/*buildscript {
+buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         //classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        //classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
+
     }
-}*/
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
+/*plugins {
+    id "net.minecraftforge.gradle.forge" version "2.3"
+}*/
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
+/*
 plugins {
     id "com.github.johnrengelman.shadow" version "1.2.4"
-}
-//apply plugin: 'net.minecraftforge.gradle.forge'
+}*/
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'java'
+apply plugin: 'maven'
 
-
-version = "1.3.2"
+version = "1.3.3"
 group = "com.github.fernthedev" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "DiscordMod"
 
@@ -34,24 +40,15 @@ configurations {
 
 reobf {
     //noinspection GroovyMissingReturnStatement
-    shadowJar {
-    // Reobfuscate the shadowed JAR
-        }
+    shadowJar {}
 }
 
 shadowJar {
+    minimize()
     baseName = project.name //+ '-all'
     //relocate 'org.apache.log4j', 'shadow.org.apache.logging.log4j'
-    //relocate 'org.apache', 'shadow.org.apache'
+    relocate 'org.apache', 'shadow.org.apache'
 }
-
-/*jar {
-    configurations.shade.each { dep ->
-        from(project.zipTree(dep)) {
-            exclude 'META-INF', 'META-INF/**'
-        }
-    }
-}*/
 
 
 minecraft {
@@ -69,33 +66,14 @@ minecraft {
  //       srgExtra "PK: org/ejml/alg your/new/package/here/ejml/alg"
 }
 
-//create a single Jar with all dependencies
-/*task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'discordmod',
-                'Implementation-Version': version,
-                'Main-Class': 'com.github.fernthedev.DiscordMod'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}*/
+repositories {
+   mavenLocal()    // add this line
+}
 
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-    //compile 'com.jagrosh:DiscordIPC:LATEST'
     compile 'org.json:json:20171018'
-  //  compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
-//    compile 'io.drakon:pulsar:1.2.1'
-   // compile group: 'log4j', name: 'log4j', version: '1.2.17'
-//     shade fileTree(dir: 'libs', include: '*.jar')
-
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile group: 'com.github.fernthedev', name: 'fernapi', version: '1.1'
 }
 
 processResources {
