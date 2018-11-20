@@ -59,6 +59,7 @@ public class RPC {
             rich.largeImageText = "Minecraft";
             rich.startTimestamp = unixTime;
 
+            //log("Menu now!");
             DiscordRPC.discordUpdatePresence(rich);
             currentStatus = status.menu;
         }
@@ -81,7 +82,12 @@ public class RPC {
 
                 //ip = ip.replace(".","\\");
                 //rich.partyId = ip;
+                DiscordMod.print(this,"Logging now");
+                //rich.partyId = ip;
+                rich.partyMax = 2;
+                rich.partySize = 1;
                 rich.joinSecret = ip;
+                DiscordMod.print(this,"Logged");
 
                 if (ip.contains("hypixel")) {
                     rich.smallImageKey = "hypixel";
@@ -118,6 +124,7 @@ public class RPC {
             }
             rich.startTimestamp = unixTime;
 
+            log("Multiplayer now!");
             DiscordRPC.discordUpdatePresence(rich);
             currentStatus = status.server;
             currentaddress = address;
@@ -162,6 +169,7 @@ public class RPC {
             rich.largeImageText = "Minecraft";
             rich.startTimestamp = unixTime;
 
+           // log("Single now!");
             DiscordRPC.discordUpdatePresence(rich);
             currentStatus = status.single;
         }
@@ -191,7 +199,7 @@ public class RPC {
     }
 
     public void updateStatus() {
-        DiscordMod.getLogger().info("UPDATING STATUS");
+        //DiscordMod.getLogger().info("UPDATING STATUS");
         if (currentStatus == status.single) {
             single();
         }
@@ -201,5 +209,9 @@ public class RPC {
         if (currentStatus == status.server) {
             server(currentaddress, currentserver);
         }
+    }
+
+    private void log(Object text) {
+        DiscordMod.print(this,text);
     }
 }
